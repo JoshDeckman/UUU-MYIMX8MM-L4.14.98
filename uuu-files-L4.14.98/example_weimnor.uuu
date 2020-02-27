@@ -1,0 +1,34 @@
+uuu_version 1.2.39
+
+# please replace below items with real filename
+# @_flash.bin		|  weim nor bootloader
+
+# This command will be run when i.MX6/7 i.MX8MM, i.MX8MQ
+SDP: boot -f _flash.bin
+
+# This command will be run when ROM support stream mode
+# i.MX8QXP, i.MX8QM
+SDPS: boot -f _flash.bin
+
+# These commands will be run when use SPL and will be skipped if no spl
+# SDPU will be deprecated. please use SDPV instead of SDPU
+# {
+SDPU: delay 1000
+SDPU: write -f _flash.bin -offset 0x57c00
+SDPU: jump
+# }
+
+# These commands will be run when use SPL and will be skipped if no spl
+# if (SPL support SDPV)
+# {
+SDPV: delay 1000
+SDPV: write -f _flash.bin -skipspl
+SDPV: jump
+# }
+
+FB: ucmd protect off ${weim_base} +0x100000
+FB[-t 30000]: ucmd erase ${weim_base} +0x100000
+FB: ucmd setenv fastboot_buffer ${loadaddr}
+FB: download -f _flash.bin
+FB[-t 30000]: ucmd cp.b ${loadaddr} ${weim_uboot} ${fastboot_bytes}
+FB: done
