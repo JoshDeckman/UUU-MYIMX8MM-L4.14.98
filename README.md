@@ -1,8 +1,2 @@
-Weclome use uuu to program image or download uboot.
-
-uuu download from:
-https://github.com/NXPmicro/mfgtools/releases/tag/uuu_1.2.91
-
-Or download lastest one
-
+Tips 1:  如果烧录时停在 "UTP: Waiting for /dev/utp to appear"，尝试重新拔插烧录线，有可能烧录会继续。
 
